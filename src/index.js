@@ -27,6 +27,14 @@ export class Spring {
     this.onFrame = onFrame
     this.onRest = onRest
     this.onComplete = onComplete
+    this.getValue = this.getValue.bind(this)
+    this.setTarget = this.setTarget.bind(this)
+    this.start = this.start.bind(this)
+    this.pause = this.pause.bind(this)
+    this.stop = this.stop.bind(this)
+    this.complete = this.complete.bind(this)
+    this.tick = this.tick.bind(this)
+    this.animateFrame = this.animateFrame.bind(this)
   }
   getValue() {
     // get the most recent value at request time
