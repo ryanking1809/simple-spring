@@ -55,14 +55,14 @@ const springValue = new Spring({
     mass: 1, // spring mass value
     precision: 0.01, // precision - can be increased to optimise performance
     fps: 120,  // frame rate - can be redued to optimise performance
-    onStart: null, // callback, fires on animation start
-    onFrame: null, // callback, fires on animation each frame
-    onRest: null, // callback, fires when animations is stopped, pasued, or completed
-    onComplete: null // callback, fires on animation completion
+    onStart: null, // callback with value and spring instance as arguments, fires on animation start. eg. (value, spring) => function(value)
+    onFrame: null, // callback with value and spring instance as arguments, fires on animation each frame. eg. (value, spring) => function(value)
+    onRest: null, // callback with value and spring instance as arguments, fires when animations is stopped, pasued, or completed. eg. (value, spring) => function(value)
+    onComplete: null // callback with value and spring instance as arguments, fires on animation completion. eg. (value, spring) => function(value)
 })
 ```
 
-These values can also be set after instanciation, eg. `springValue.onStart = func`
+These values can also be set after instanciation, eg. `springValue.onFrame = value => updateState(value)`
 
 #### Animation controls
 

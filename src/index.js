@@ -48,7 +48,7 @@ export class Spring {
         }
       }, 1000 / this.fps)
     }
-    if (this.onStart) this.onStart()
+    if (this.onStart) this.onStart(this.value, this)
     return this
   }
   pause() {
@@ -56,7 +56,7 @@ export class Spring {
     this.resting = true
     if (this.ticker) clearInterval(this.ticker)
     this.ticker = null
-    if (this.onRest) this.onRest()
+    if (this.onRest) this.onRest(this.value, this)
     return this
   }
   stop() {
@@ -65,7 +65,7 @@ export class Spring {
     this.resting = true
     if (this.ticker) clearInterval(this.ticker)
     this.ticker = null
-    if (this.onRest) this.onRest()
+    if (this.onRest) this.onRest(this.value, this)
     return this
   }
   complete() {
@@ -75,8 +75,8 @@ export class Spring {
     this.resting = true
     if (this.ticker) clearInterval(this.ticker)
     this.ticker = null
-    if (this.onRest) this.onRest()
-    if (this.onComplete) this.onComplete()
+    if (this.onRest) this.onRest(this.value, this)
+    if (this.onComplete) this.onComplete(this.value, this)
     return this
   }
   tick(t) {
@@ -113,7 +113,7 @@ export class Spring {
     let acceleration = (force + damping) / this.mass
     this.velocity += acceleration / this.fps
     this.value += this.velocity / this.fps
-    if (this.onFrame) this.onFrame()
+    if (this.onFrame) this.onFrame(this.value, this)
     if (this.restingAtTarget) {
       this.complete()
     }
