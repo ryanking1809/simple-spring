@@ -1,0 +1,37 @@
+{
+  "name": "simple-spring",
+  "version": "1.0.0",
+  "description": "A stripped-back spring animation library for high-frequency animations",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanking1809/simple-spring.git"
+  },
+  "keywords": [
+    "spring",
+    "animation",
+    "physics"
+  ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src/index.js"
+  ],
+  "author": "Ryan King",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryanking1809/simple-spring/issues"
+  },
+  "homepage": "https://github.com/ryanking1809/simple-spring#readme",
+  "prettier": {
+    "semi": false,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "jsxBracketSameLine": true,
+    "tabWidth": 2,
+    "printWidth": 120
+  }
+}
