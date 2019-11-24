@@ -48,8 +48,8 @@ springValue.getValue()
 
 ```js
 const springValue = new Spring({
-    value: 0, // initial value of Spring
-    target: 0, // target value of Spring
+    value: 0, // initial value of Spring, Number or Array of Numbers
+    target: 0, // target value of Spring, Number or Array of Numbers
     tension: 170, // spring tension value
     friction: 26, // spring friction value
     mass: 1, // spring mass value

@@ -12,6 +12,9 @@ export class Spring {
     onRest = null,
     onComplete = null,
   } = {}) {
+    this.springStartValue = 0
+    this.springValue = 0
+    this.springTargetValue = 0
     this.value = value
     this.target = target
     this.tension = tension
@@ -36,9 +39,50 @@ export class Spring {
     this.tick = this.tick.bind(this)
     this.animateFrame = this.animateFrame.bind(this)
   }
+  set value(val) {
+    if (val.constructor === Array) {
+      const sumVals = val.reduce((previous, current) => (current += previous))
+      const avgVal = sumVals / val.length
+      this.springStartValue = avgVal
+      this.springValue = avgVal
+      this.startValue = val
+      this.dataType = 'array'
+    } else {
+      this.springStartValue = val
+      this.springValue = val
+      this.startValue = val
+      this.dataType = 'number'
+    }
+  }
+  get value() {
+    if (this.dataType === 'array') {
+      if (this.restingAtStart) return this.startValue
+      if (this.restingAtTarget) return this.targetValue
+      const percentProgress = (this.springValue - this.springStartValue) / ((this.springTargetValue - this.springStartValue) || 1)
+      return this.startValue.map((v, i) => {
+        return (this.targetValue[i] - this.startValue[i]) * percentProgress + this.startValue[i]
+      })
+    } else {
+      return this.springValue
+    }
+  }
   getValue() {
     // get the most recent value at request time
     return this.tick().value
+  }
+  set target(val) {
+    if (val.constructor === Array) {
+      const sumVals = val.reduce((previous, current) => (current += previous))
+      const avgVal = sumVals / val.length
+      this.springTargetValue = avgVal
+      this.targetValue = val
+    } else {
+      this.springTargetValue = val
+      this.targetValue = val
+    }
+  }
+  get target() {
+    return this.targetValue
   }
   // mostly for chaining
   setTarget(val) {
@@ -77,7 +121,7 @@ export class Spring {
     return this
   }
   complete() {
-    this.value = this.target
+    this.springValue = this.springTargetValue
     this.velocity = 0
     this.prevTime = null
     this.resting = true
@@ -116,17 +160,20 @@ export class Spring {
     return this
   }
   animateFrame() {
-    let force = -this.tension * (this.value - this.target)
+    let force = -this.tension * (this.springValue - this.springTargetValue)
     let damping = -this.friction * this.velocity
     let acceleration = (force + damping) / this.mass
     this.velocity += acceleration / this.fps
-    this.value += this.velocity / this.fps
-    if (this.onFrame) this.onFrame(this.value, this)
+    this.springValue += this.velocity / this.fps
+    if (this.onFrame) this.onFrame(this.springValue, this)
     if (this.restingAtTarget) {
       this.complete()
     }
   }
   get restingAtTarget() {
-    return Math.abs(this.value - this.target) < this.precision && Math.abs(this.velocity) < this.precision
+    return Math.abs(this.springValue - this.springTargetValue) < this.precision && Math.abs(this.velocity) < this.precision
+  }
+  get restingAtStart() {
+    return Math.abs(this.springValue - this.springStartValue) < this.precision && Math.abs(this.velocity) < this.precision
   }
 }
