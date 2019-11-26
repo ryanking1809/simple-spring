@@ -48,12 +48,8 @@ export class Spring {
       this.startValue = val
       this.dataType = 'array'
     } else {
-      // if numbers are really large then the spring gets super bouncy
-      // eventhough the target value may be very close
-      // setting intial value to 0 and target to the difference
-      // prevents super bouncyness
-      this.springStartValue = 0
-      this.springValue = 0
+      this.springStartValue = val
+      this.springValue = val
       this.startValue = val
       this.dataType = 'number'
     }
@@ -62,17 +58,12 @@ export class Spring {
     if (this.dataType === 'array') {
       if (this.restingAtStart) return this.startValue
       if (this.restingAtTarget) return this.targetValue
-      const percentProgress =
-        (this.springValue - this.springStartValue) / (this.springTargetValue - this.springStartValue || 1)
+      const percentProgress = (this.springValue - this.springStartValue) / ((this.springTargetValue - this.springStartValue) || 1)
       return this.startValue.map((v, i) => {
         return (this.targetValue[i] - this.startValue[i]) * percentProgress + this.startValue[i]
       })
     } else {
-      // if numbers are really large then the spring gets super bouncy
-      // eventhough the target value may be very close
-      // setting intial value to 0 and target to the difference
-      // prevents super bouncyness
-      return this.springValue + this.startValue
+      return this.springValue
     }
   }
   getValue() {
@@ -86,11 +77,7 @@ export class Spring {
       this.springTargetValue = avgVal
       this.targetValue = val
     } else {
-      // if numbers are really large then the spring gets super bouncy
-      // eventhough the target value may be very close
-      // setting intial value to 0 and target to the difference
-      // prevents super bouncyness
-      this.springTargetValue = val - this.startValue
+      this.springTargetValue = val
       this.targetValue = val
     }
   }
@@ -184,13 +171,9 @@ export class Spring {
     }
   }
   get restingAtTarget() {
-    return (
-      Math.abs(this.springValue - this.springTargetValue) < this.precision && Math.abs(this.velocity) < this.precision
-    )
+    return Math.abs(this.springValue - this.springTargetValue) < this.precision && Math.abs(this.velocity) < this.precision
   }
   get restingAtStart() {
-    return (
-      Math.abs(this.springValue - this.springStartValue) < this.precision && Math.abs(this.velocity) < this.precision
-    )
+    return Math.abs(this.springValue - this.springStartValue) < this.precision && Math.abs(this.velocity) < this.precision
   }
 }
