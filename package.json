@@ -3,9 +3,11 @@
   "version": "1.3.0",
   "description": "A stripped-back spring animation library for high-frequency animations",
   "type": "module",
+  "main": "src/index.js",
+  "types": "./types.d.ts",
   "exports": {
     ".": {
-      "default": "./src/index.js",
+      "import": "./src/index.js",
       "types": "./types.d.ts"
     }
   },
