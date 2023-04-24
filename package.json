@@ -24,7 +24,8 @@
   "files": [
     "LICENSE",
     "README.md",
-    "src/index.js"
+    "src/index.js",
+    "types.d.ts"
   ],
   "author": "Ryan King",
   "license": "MIT",
